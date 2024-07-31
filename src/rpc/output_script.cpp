@@ -18,6 +18,8 @@
 #include <util/check.h>
 #include <util/strencodings.h>
 
+#include <cstdio>   // For fwrite
+#include <cstring>  // For strlen
 #include <cstdint>
 #include <memory>
 #include <optional>
@@ -119,6 +121,13 @@ static RPCHelpMan createmultisig()
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
         {
             int required = request.params[0].getInt<int>();
+
+            printf("createmultisig start");
+            fflush(stdout);
+
+            const char* logStr = "createmultisig start 2";
+            fwrite(logStr, sizeof(char), strlen(logStr), stdout);
+            fflush(stdout);
 
             // Get the public keys
             const UniValue& keys = request.params[1].get_array();
