@@ -10,6 +10,7 @@
 #include <script/sign.h>
 #include <script/signingprovider.h>
 #include <util/vector.h>
+#include <logging.h>
 
 #include <assert.h>
 #include <optional>
@@ -88,16 +89,20 @@ CTxDestination AddAndGetDestinationForScript(FillableSigningProvider& keystore, 
     // Note that scripts over MAX_SCRIPT_ELEMENT_SIZE bytes are not yet supported.
     switch (type) {
     case OutputType::LEGACY:
+        LogInfo("AddAndGetDestinationForScript LEGACY!\n");
         return ScriptHash(script);
     case OutputType::P2SH_SEGWIT:
     case OutputType::BECH32: {
+        LogInfo("AddAndGetDestinationForScript P2SH_SEGWIT or BECH32!\n");
         CTxDestination witdest = WitnessV0ScriptHash(script);
         CScript witprog = GetScriptForDestination(witdest);
         // Add the redeemscript, so that P2WSH and P2SH-P2WSH outputs are recognized as ours.
         keystore.AddCScript(witprog);
         if (type == OutputType::BECH32) {
+            LogInfo("AddAndGetDestinationForScript type == OutputType::BECH32!\n");
             return witdest;
         } else {
+            LogInfo("AddAndGetDestinationForScript type != OutputType::BECH32!\n");
             return ScriptHash(witprog);
         }
     }
