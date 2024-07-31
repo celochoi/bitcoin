@@ -129,6 +129,8 @@ static RPCHelpMan createmultisig()
             fwrite(logStr, sizeof(char), strlen(logStr), stdout);
             fflush(stdout);
 
+            LogPrintf("createmultisig start 3\n");
+
             // Get the public keys
             const UniValue& keys = request.params[1].get_array();
             std::vector<CPubKey> pubkeys;
