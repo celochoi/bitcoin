@@ -161,7 +161,8 @@ static RPCHelpMan createmultisig()
             UniValue result(UniValue::VOBJ);
             result.pushKV("address", EncodeDestination(dest));
             result.pushKV("redeemScript", HexStr(inner));
-            result.pushKV("descriptor", descriptor->ToString());
+//            result.pushKV("descriptor", descriptor->ToString());
+            result.pushKV("descriptor", "????");
             result.pushKV("logMessage", "test!");
 
             UniValue warnings(UniValue::VARR);
