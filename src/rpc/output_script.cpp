@@ -17,6 +17,7 @@
 #include <univalue.h>
 #include <util/check.h>
 #include <util/strencodings.h>
+#include <logging.h>
 
 #include <cstdio>   // For fwrite
 #include <cstring>  // For strlen
@@ -129,7 +130,7 @@ static RPCHelpMan createmultisig()
             fwrite(logStr, sizeof(char), strlen(logStr), stdout);
             fflush(stdout);
 
-            LogPrintf("createmultisig start 3\n");
+            LogInfo("createmultisig start 3\n");
 
             // Get the public keys
             const UniValue& keys = request.params[1].get_array();
