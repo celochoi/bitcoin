@@ -51,8 +51,11 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
     std::vector<valtype> vSolutions;
     TxoutType whichType = Solver(scriptPubKey, vSolutions);
 
+    printf("ExtractDestination Start!");
+
     switch (whichType) {
     case TxoutType::PUBKEY: {
+        printf("TxoutType::PUBKEY");
         CPubKey pubKey(vSolutions[0]);
         if (!pubKey.IsValid()) {
             addressRet = CNoDestination(scriptPubKey);
@@ -62,38 +65,47 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
         return false;
     }
     case TxoutType::PUBKEYHASH: {
+        printf("TxoutType::PUBKEYHASH");
         addressRet = PKHash(uint160(vSolutions[0]));
         return true;
     }
     case TxoutType::SCRIPTHASH: {
+        printf("TxoutType::SCRIPTHASH");
         addressRet = ScriptHash(uint160(vSolutions[0]));
         return true;
     }
     case TxoutType::WITNESS_V0_KEYHASH: {
+        printf("TxoutType::WITNESS_V0_KEYHASH");
         WitnessV0KeyHash hash;
         std::copy(vSolutions[0].begin(), vSolutions[0].end(), hash.begin());
         addressRet = hash;
         return true;
     }
     case TxoutType::WITNESS_V0_SCRIPTHASH: {
+        printf("TxoutType::WITNESS_V0_SCRIPTHASH");
         WitnessV0ScriptHash hash;
         std::copy(vSolutions[0].begin(), vSolutions[0].end(), hash.begin());
         addressRet = hash;
         return true;
     }
     case TxoutType::WITNESS_V1_TAPROOT: {
+        printf("TxoutType::WITNESS_V1_TAPROOT");
         WitnessV1Taproot tap;
         std::copy(vSolutions[0].begin(), vSolutions[0].end(), tap.begin());
         addressRet = tap;
         return true;
     }
     case TxoutType::WITNESS_UNKNOWN: {
+        printf("TxoutType::WITNESS_UNKNOWN");
         addressRet = WitnessUnknown{vSolutions[0][0], vSolutions[1]};
         return true;
     }
     case TxoutType::MULTISIG:
     case TxoutType::NULL_DATA:
     case TxoutType::NONSTANDARD:
+        printf("TxoutType::NONSTANDARD");
+        printf("TxoutType: %d", TxoutType);
+
         addressRet = CNoDestination(scriptPubKey);
         return false;
     } // no default case, so the compiler can warn about missing cases
