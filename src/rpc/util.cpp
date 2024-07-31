@@ -246,6 +246,7 @@ CTxDestination AddAndGetMultisigDestination(const int required, const std::vecto
     // Check if any keys are uncompressed. If so, the type is legacy
     for (const CPubKey& pk : pubkeys) {
         if (!pk.IsCompressed()) {
+            printf("!pk.IsCompressed()");
             type = OutputType::LEGACY;
             break;
         }

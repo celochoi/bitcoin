@@ -104,7 +104,6 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
     case TxoutType::NULL_DATA:
     case TxoutType::NONSTANDARD:
         printf("TxoutType::NONSTANDARD");
-        printf("TxoutType: %d", TxoutType);
 
         addressRet = CNoDestination(scriptPubKey);
         return false;
